@@ -1,23 +1,48 @@
 <template>
-  <h1 class="text-center font-sans text-4xl font-semibold">
-    Nuxt3 Jamstack Blogs
-  </h1>
+  <h1 class="text-center font-sans text-4xl font-semibold"><a href="/">テストBlog</a></h1>
+
+  <!-- 検索 -->
+  <div id="form" class="w-full max-w-xs">
+    <form @submit.prevent="search" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="query">
+          検索したい文字列
+        </label>
+        <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="query"
+            type="text"
+            v-model="query"
+            placeholder="文字列"
+        />
+      </div>
+      <div class="flex items-center justify-between">
+        <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+        >
+          検索
+        </button>
+      </div>
+    </form>
+  </div>
+
   <ul class="mt-16 grid grid-cols-1 gap-8">
     <li v-for="blog in data?.contents" :key="blog.id">
       <NuxtLink
-        :to="`/${blog.id}`"
-        class="flex flex-col gap-4 sm:transition-shadow sm:hover:shadow md:flex-row md:items-center lg:gap-6"
+          :to="`/${blog.id}`"
+          class="flex flex-col gap-4 sm:transition-shadow sm:hover:shadow md:flex-row md:items-center lg:gap-6"
       >
         <img
-          :src="blog.eyecatch?.url"
-          :width="blog.eyecatch?.width"
-          :height="blog.eyecatch?.height"
-          class="md:w-1/3 md:flex-none"
-          alt=""
+            :src="blog.eyecatch?.url"
+            :width="blog.eyecatch?.width"
+            :height="blog.eyecatch?.height"
+            class="md:w-1/3 md:flex-none"
+            alt=""
         />
         <div class="md:p-2.5 md:pr-0">
           <div
-            class="inline-block rounded border-2 border-indigo-600 px-1.5 py-0.5 text-sm font-semibold text-indigo-600"
+              class="inline-block rounded border-2 border-indigo-600 px-1.5 py-0.5 text-sm font-semibold text-indigo-600"
           >
             {{ blog.category?.name }}
           </div>
@@ -33,10 +58,28 @@
   </ul>
 </template>
 
-<script setup lang="ts">
-import { Blog } from "~~/types/Blog";
+<!--<script setup lang="ts">-->
+<!--import {Blog} from '../.nuxt/types/Blog';-->
 
-const { data } = await useMicroCMSGetList<Blog>({
-  endpoint: "blogs",
-});
+<!--const {data} = await useMicroCMSGetList<Blog>({-->
+<!--  endpoint: "blogs",-->
+<!--});-->
+
+<!--</script>-->
+
+
+<script setup lang="ts">
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {Blog} from '../.nuxt/types/Blog';
+
+const query = ref('');
+const router = useRouter();
+
+const search = () => {
+  router.push({name: 'search', query: {q: query.value}});
+}
+
+const {data} = await useMicroCMSGetList<Blog>({endpoint: "blogs"});
+
 </script>
