@@ -34,5 +34,21 @@
   </ul>
 </template>
 
-<script>
+<script setup lang="ts">
+import {Blog} from '../.nuxt/types/Blog';
+import {useRoute} from 'vue-router';
+
+const route = useRoute();
+
+// クエリパラメータへのアクセス
+let param: any = route.query.q;
+
+const queries = reactive({
+  q: typeof param === 'string' ? param : undefined,
+});
+
+const {data} = await useMicroCMSGetList<Blog>({
+  endpoint: "blogs",
+  queries: queries,
+});
 </script>
