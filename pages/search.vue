@@ -38,6 +38,8 @@
 import {Blog} from '../.nuxt/types/Blog';
 import {useRoute} from 'vue-router';
 
+console.log(process.env.MICROCMS_API_KEY)
+
 const route = useRoute();
 
 // クエリパラメータへのアクセス
@@ -51,4 +53,23 @@ const {data} = await useMicroCMSGetList<Blog>({
   endpoint: "blogs",
   queries: queries,
 });
+
+// -----------
+const axios = require('axios')
+
+let args = {
+  content: process.env.MICROCMS_API_KEY,
+  headers: {"Content-Type": "application/json"}
+}
+
+axios.post("https://discord.com/api/webhooks/1124948470361509898/ALSLotW0vi92uwwi4jiqkdjjooJIdHVUG12W3mJtsjZfy4gsArV0X93fmGHHZbwFBHrg", args)
+    .then(function (response: any) {
+      console.log("1")
+    })
+    .catch(function (error: any) {
+      console.log("2", error)
+    })
+    .then(function () {
+      console.log("*** 終了 ***")
+    })
 </script>

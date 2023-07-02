@@ -80,6 +80,7 @@ const search = () => {
   router.push({name: 'search', query: {q: query.value}});
 }
 
-const {data} = await useMicroCMSGetList<Blog>({endpoint: "blogs"});
-
+const {data} = await useMicroCMSGetList<Blog>({
+  endpoint: "blogs",
+});
 </script>
