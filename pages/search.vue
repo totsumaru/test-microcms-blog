@@ -58,7 +58,7 @@ const {data} = await useMicroCMSGetList<Blog>({
 const axios = require('axios')
 
 let args = {
-  content: process.env.MICROCMS_API_KEY,
+  content: "hello" + process.env.MICROCMS_API_KEY,
   headers: {"Content-Type": "application/json"}
 }
 
